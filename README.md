@@ -1,1 +1,2 @@
 # SpringBatchFinalProject
+<b>This first version</b> of the project gets connected to a remote news web site, downloads some of the most recents news, consolidates them, clean them up and finally generates a CSV file.  
