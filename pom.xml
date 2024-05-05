@@ -13,7 +13,7 @@
 	<artifactId>SpringBatchFinalProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>SpringBatchFinalProject</name>
-	<description>Spring Batch project for Spring Boot to demo the knowlegde gotten in the Spring Batch Integration's Galaxy Course</description>
+	<description>Spring Batch project for Spring Boot to demo the knowledge gotten in the Spring Batch Integration's Galaxy Course</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
