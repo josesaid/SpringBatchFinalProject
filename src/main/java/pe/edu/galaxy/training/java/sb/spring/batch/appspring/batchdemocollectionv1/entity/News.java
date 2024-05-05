@@ -17,4 +17,7 @@ public class News implements Serializable {
     private String feedTitle;
     private String category;
     private String entryTitle;
+
+
+
 }

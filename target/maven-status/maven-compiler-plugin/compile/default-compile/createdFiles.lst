@@ -1,0 +1,17 @@
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/jobLauncher/ApplicationJobsLauncher.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/extractor/NewsCSVFieldExtractor.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/entity/NewsProcess.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/BatchApplication.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/callback/NewsCsvFlatFileHeaderCallback.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/tasklet/RetrieveNewsStepTasklet.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/tasklet/CreateCSVNewsStepTasklet.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/step/reader/NewsItemReader.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/configuration/DataSourceConfig.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/step/writer/NewsItemWriter.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/step/processor/TallerProcessor.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/entity/News.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/feed/FeedCreator.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/api/JobLauncherController.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/aggregator/NewsCSVLineAggregator.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/tasklet/CleanUpNewsStepTasklet.class
+pe/edu/galaxy/training/java/sb/spring/batch/appspring/batchdemocollectionv1/job/NewsConfig.class
