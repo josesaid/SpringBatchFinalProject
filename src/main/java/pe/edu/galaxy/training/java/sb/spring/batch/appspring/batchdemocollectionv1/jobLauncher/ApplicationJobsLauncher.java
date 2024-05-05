@@ -33,13 +33,13 @@ public class ApplicationJobsLauncher implements CommandLineRunner {
 			Thread.sleep(5000L);
 		}
 
-		/*
+
 		//Call second job
-		Job persistNewsAtCSVFileJob = (Job) applicationContext.getBean("persistNewsAtCSVFileJob");
-		JobParameters persistCSVJobParameters = new JobParametersBuilder().addString("JobID", uniqueJobId()).toJobParameters();
-		JobExecution persistNewsAtCSVFileJobExecution = jobLauncher.run(persistNewsAtCSVFileJob, persistCSVJobParameters);
-		BatchStatus persistBatchStatus = persistNewsAtCSVFileJobExecution.getStatus();
-		*/
+		Job newsProcessJob = (Job) applicationContext.getBean("newsProcessJob");
+		JobParameters newsProcessJobParameters = new JobParametersBuilder().addString("JobID", uniqueJobId()).toJobParameters();
+		JobExecution newsProcessJobExecution = jobLauncher.run(newsProcessJob, newsProcessJobParameters);
+		BatchStatus persistBatchStatus = newsProcessJobExecution.getStatus();
+
 	}
 
 	private String uniqueJobId(){

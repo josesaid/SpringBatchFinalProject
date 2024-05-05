@@ -63,17 +63,17 @@ public class NewsConfig {
 	}
 
 	@Bean
-	public Job loadDataJob(){
-		return new JobBuilder("loadDataJob", jobRepository)
+	public Job newsProcessJob(){
+		return new JobBuilder("newsProcessJob", jobRepository)
 				.incrementer(new RunIdIncrementer())
-				.flow(loadDataStep(txManager))
+				.flow(newsProcessStep(txManager))
 				.end()
 				.build();
 	}
 
 	@Bean
-	public Step loadDataStep(PlatformTransactionManager txManager) {
-		return new StepBuilder("stepLoadData", jobRepository)
+	public Step newsProcessStep(PlatformTransactionManager txManager) {
+		return new StepBuilder("newsProcessStep", jobRepository)
 				.<News, NewsProcess>chunk(10, txManager)
 				.reader(newsItemReader)
 				.processor(newsItemProcessor)

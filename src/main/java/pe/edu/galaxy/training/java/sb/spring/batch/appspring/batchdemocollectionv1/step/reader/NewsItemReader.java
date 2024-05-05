@@ -19,11 +19,11 @@ import pe.edu.galaxy.training.java.sb.spring.batch.appspring.batchdemocollection
 @Configuration
 public class NewsItemReader {
 
-	@Value("${newsCSVFileOutput}")
+	@Value("${processedCSVFileInput}")
 	private String inputCSVFile;
 
 	@Bean
-	FlatFileItemReader<News> flatFileItemReader(@Value("${newsCSVFileOutput}") Resource newsCSVFileOutput){
+	FlatFileItemReader<News> flatFileItemReader(@Value("${processedCSVFileInput}") Resource newsCSVFileOutput){
 		FlatFileItemReader<News> flatFileItemReader = new FlatFileItemReader<>();
 		Resource resource = new FileSystemResource(inputCSVFile);
 		log.info("flatFileItemReader -inputFile {}",inputCSVFile);
