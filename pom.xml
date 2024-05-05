@@ -10,10 +10,10 @@
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>pe.edu.galaxy.training.java.sb.spring.batch</groupId>
-	<artifactId>app-spring.batch-demo-collection-v1</artifactId>
+	<artifactId>SpringBatchFinalProject</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>app-spring.batch-demo-collection-v1</name>
-	<description>Demo project for Spring Boot</description>
+	<name>SpringBatchFinalProject</name>
+	<description>Spring Batch project for Spring Boot to demo the knowlegde gotten in the Spring Batch Integration's Galaxy Course</description>
 	<properties>
 		<java.version>17</java.version>
 	</properties>
