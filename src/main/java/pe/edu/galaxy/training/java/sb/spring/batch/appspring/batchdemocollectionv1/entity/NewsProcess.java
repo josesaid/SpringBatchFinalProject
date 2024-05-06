@@ -9,7 +9,7 @@ import java.io.Serializable;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class News implements Serializable {
+public class NewsProcess implements Serializable {
     private String id;
     private String author;
     private String type;
@@ -18,6 +18,8 @@ public class News implements Serializable {
     private String category;
     private String entryTitle;
 
-
+    public static String[] getNames() {
+        return new String[]{"id", "author", "type", "typeVersionNumber", "feedTitle", "category", "entryTitle"};
+    }
 
 }

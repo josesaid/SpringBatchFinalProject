@@ -23,23 +23,28 @@ public class ApplicationJobsLauncher implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		//Call first job
-		Job retrieveNewsJob = (Job) applicationContext.getBean("retrieveNewsJob");
-		JobParameters jobParameters = new JobParametersBuilder().addString("JobID", uniqueJobId()).toJobParameters();
-		JobExecution jobExecution = jobLauncher.run(retrieveNewsJob, jobParameters);
-		BatchStatus batchStatus = jobExecution.getStatus();
-		while (batchStatus.isRunning()) {
-			log.info("Job en ejecución...");
-			Thread.sleep(5000L);
-		}
 
-		/*
+		//Call first job
+		Job executeOSJob = (Job) applicationContext.getBean("executeOSJob");
+		JobParameters jobParameters = new JobParametersBuilder().addString("JobID", uniqueJobId()).toJobParameters();
+		JobExecution jobOSExecution = jobLauncher.run(executeOSJob, jobParameters);
+		BatchStatus batchStatus = jobOSExecution.getStatus();
+		log.info("Finished:" + String.valueOf(batchStatus.isRunning()));
+
 		//Call second job
-		Job persistNewsAtCSVFileJob = (Job) applicationContext.getBean("persistNewsAtCSVFileJob");
-		JobParameters persistCSVJobParameters = new JobParametersBuilder().addString("JobID", uniqueJobId()).toJobParameters();
-		JobExecution persistNewsAtCSVFileJobExecution = jobLauncher.run(persistNewsAtCSVFileJob, persistCSVJobParameters);
-		BatchStatus persistBatchStatus = persistNewsAtCSVFileJobExecution.getStatus();
-		*/
+		Job retrieveNewsJob = (Job) applicationContext.getBean("retrieveNewsJob");
+		JobParameters secondJobParameters = new JobParametersBuilder().addString("JobID", uniqueJobId()).toJobParameters();
+		JobExecution jobExecution = jobLauncher.run(retrieveNewsJob, secondJobParameters);
+		BatchStatus secondBatchStatus = jobExecution.getStatus();
+		log.info("Finished:" + String.valueOf(secondBatchStatus.isRunning()));
+
+		//Call third job
+		Job newsProcessJob = (Job) applicationContext.getBean("newsProcessJob");
+		JobParameters newsProcessJobParameters = new JobParametersBuilder().addString("JobID", uniqueJobId()).toJobParameters();
+		JobExecution newsProcessJobExecution = jobLauncher.run(newsProcessJob, newsProcessJobParameters);
+		BatchStatus persistBatchStatus = newsProcessJobExecution.getStatus();
+		log.info("Finished:" + String.valueOf(persistBatchStatus.isRunning()));
+
 	}
 
 	private String uniqueJobId(){
