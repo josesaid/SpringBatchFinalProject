@@ -7,6 +7,7 @@ import org.springframework.batch.repeat.RepeatStatus;
 import pe.edu.galaxy.training.java.sb.spring.batch.appspring.batchdemocollectionv1.entity.News;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class CleanUpNewsStepTasklet implements Tasklet {
     private List<News> newsList;
@@ -22,10 +23,7 @@ public class CleanUpNewsStepTasklet implements Tasklet {
         System.out.println("-------------------------------------------------------");
 
         newsList.stream().forEach(news -> news.setAuthor(news.getAuthor()==null? " Desconocido" : news.getAuthor() ) );
-        newsList.stream().forEach(news -> news.setTypeVersionNumber(news.getType().endsWith("2.0")? "2.0": "version desconocida" ));
         newsList.stream().forEach(news -> news.setType(news.getType().endsWith("2.0")? "RSS": news.getType() ));
-        newsList.stream().forEach(news -> news.setCategory(news.getFeedTitle().contains("Tecnología")? "Tecnología": "Categoría desconocida" ));
-        newsList.stream().forEach(news -> news.setFeedTitle(news.getFeedTitle().contains("Expansión")? "Expansión": "Fuente desconocida" ));
 
         newsList.stream().forEach(news -> System.out.println(news));
 

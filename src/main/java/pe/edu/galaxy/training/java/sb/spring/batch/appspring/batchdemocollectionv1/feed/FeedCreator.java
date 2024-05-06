@@ -75,7 +75,7 @@ public class FeedCreator {
             SyndEntryImpl entry = feedIterator.next();
             String entryTitle = entry.getTitle();
             //System.out.println("entryTitle: " + entryTitle);
-            newsList.add(new News(counter++, author, type, null, feedTitle, category, entryTitle));
+            newsList.add(new News(String.valueOf(counter++), author, type, null, feedTitle, category, entryTitle));
         }
         return newsList;
     }

@@ -10,7 +10,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class News implements Serializable {
-    private int id;
+    private String id;
     private String author;
     private String type;
     private String typeVersionNumber;

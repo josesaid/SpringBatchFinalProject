@@ -41,7 +41,6 @@ public class RetrieveNewsStepTasklet implements Tasklet {
 		String author = feed.getAuthor();
 		String type = feed.getFeedType();
 		String feedTitle = feed.getTitle();
-		String category = null;
 		System.out.println(feed.getEntries().size());
 
 		List<SyndEntryImpl> entries = feed.getEntries();
@@ -50,7 +49,7 @@ public class RetrieveNewsStepTasklet implements Tasklet {
 		while(feedIterator.hasNext()){
 			SyndEntryImpl entry = feedIterator.next();
 			String entryTitle = entry.getTitle();
-			this.newsList.add(new News(counter++, author, type, null, feedTitle, category, entryTitle));
+			this.newsList.add(new News(null, author, type, null, feedTitle, null, entryTitle));
 		}
 		return RepeatStatus.FINISHED;
 	}

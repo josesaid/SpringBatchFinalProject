@@ -28,6 +28,8 @@ public class NewsItemWriter{
 		writer.setAppendAllowed(true);
 		writer.setLineAggregator(new NewsCSVLineAggregator());
 		writer.setHeaderCallback(new NewsCsvFlatFileHeaderCallback());
+
+
 		return writer;
 	}
 

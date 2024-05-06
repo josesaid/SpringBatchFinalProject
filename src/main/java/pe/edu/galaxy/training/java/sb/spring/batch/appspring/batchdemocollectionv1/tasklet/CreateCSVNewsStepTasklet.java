@@ -19,7 +19,7 @@ public class CreateCSVNewsStepTasklet implements Tasklet {
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws Exception {
         //TODO: Refactor this code
-        this.newsList = RetrieveNewsStepTasklet.newsList;
+        //this.newsList = RetrieveNewsStepTasklet.newsList;
 
         //First job will save to newsCSVFileOutput
         String newsCSVFileOutput = "/Users/josesaidolanogarcia/temp/cleanup_data_v1.csv";
@@ -27,8 +27,18 @@ public class CreateCSVNewsStepTasklet implements Tasklet {
 
         writer.println("id,author,type,typeVersionNumber,feedTitle,category,entryTitle");
 
-        for (News news : newsList) {
-            writer.println(news.toString());
+        final String COMMA = ",";
+        int counter = 1;
+        for (News news : RetrieveNewsStepTasklet.newsList) {
+            String linea = new StringBuffer(counter++).append(COMMA)
+                    .append(news.getAuthor()).append(COMMA)
+                    .append(news.getType()).append(COMMA)
+                    .append(news.getTypeVersionNumber()).append(COMMA)
+                    .append(news.getFeedTitle()).append(COMMA)
+                    .append(news.getCategory()).append(COMMA)
+                    .append(news.getEntryTitle()).append(COMMA)
+                    .toString();
+            writer.println(linea);
         }
         writer.close();
         log.info("output file created at: " + newsCSVFileOutput);
