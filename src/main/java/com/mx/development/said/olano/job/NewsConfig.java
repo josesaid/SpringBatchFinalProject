@@ -1,9 +1,10 @@
 package com.mx.development.said.olano.job;
 
 import com.mx.development.said.olano.commons.Constants;
-import com.mx.development.said.olano.listener.CleanUpWorkingDirectoryListener;
-import com.mx.development.said.olano.listener.PrepareNewsToCSVFile01Listener;
-import com.mx.development.said.olano.listener.RetrieveNewsListener;
+import com.mx.development.said.olano.listener.job.CleanUpWorkingDirectoryListener;
+import com.mx.development.said.olano.listener.job.PrepareNewsToCSVFile01Listener;
+import com.mx.development.said.olano.listener.job.RetrieveNewsListener;
+import com.mx.development.said.olano.listener.step.RetrieveNewsStepExecutionListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -35,10 +36,14 @@ public class NewsConfig {
 	private final ItemReader<News> newsItemReader;
 	private final ItemWriter<NewsProcess> newsItemWriter;
 	private final ItemProcessor<News, NewsProcess> newsItemProcessor;
+
+	//Job Listeners:
 	private final CleanUpWorkingDirectoryListener cleanUpWorkingDirectoryListener;
 	private final RetrieveNewsListener retrieveNewsListener;
 	private final PrepareNewsToCSVFile01Listener prepareNewsToCSVFile01Listener;
 
+	//Step Execution Listener:
+	private final RetrieveNewsStepExecutionListener retrieveNewsStepExecutionListener;
 	@Bean
 	public Job cleanUpWorkingDirectoryOSJob () {
 		return new JobBuilder(Constants.CLEAN_UP_WORKING_DIRECTORY_OS_JOB, jobRepository)
@@ -71,6 +76,7 @@ public class NewsConfig {
 	@Bean
 	public Step retrieveNewsStep(PlatformTransactionManager txManager) {
 		return new StepBuilder(Constants.RETRIEVE_NEWS_STEP, jobRepository)
+				.listener(retrieveNewsStepExecutionListener)
 				.tasklet(new RetrieveNewsStepTasklet(), txManager)
 				.build();
 	}

@@ -1,4 +1,4 @@
-package com.mx.development.said.olano.listener;
+package com.mx.development.said.olano.listener.job;
 
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
