@@ -18,10 +18,10 @@ public class ApplicationJobsLauncher implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		//Call first job
-		jobsHelper.executeJob( jobLauncher, applicationContext, Constants.CLEAN_UP_WORKING_DIRECTORY_OS_JOB);
+		jobsHelper.executeJob(jobLauncher, applicationContext, Constants.CLEAN_UP_WORKING_DIRECTORY_OS_JOB);
 		//Call second job
 		jobsHelper.executeJob(jobLauncher, applicationContext, Constants.RETRIEVE_NEWS_JOB);
 		//Call third job
-		jobsHelper.executeJob(jobLauncher, applicationContext, Constants.PROCESS_NEWS_JOB);
+		jobsHelper.executeJob(jobLauncher, applicationContext, Constants.NEWS_PROCESS_JOB);
 	}
 }

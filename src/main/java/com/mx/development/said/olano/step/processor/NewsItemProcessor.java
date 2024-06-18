@@ -1,5 +1,6 @@
 package com.mx.development.said.olano.step.processor;
 
+import com.mx.development.said.olano.commons.Constants;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -8,12 +9,13 @@ import com.mx.development.said.olano.entity.NewsProcess;
 
 @Component
 public class NewsItemProcessor implements ItemProcessor<News, NewsProcess>{
-	final static String WHITE_SPACE = " ";
+
 	public int counter = 1;
 	@Override
 	public NewsProcess process(News item) throws Exception {
+
 		//Ignora las noticias mal redactadas
-		if(item.getEntryTitle().split(WHITE_SPACE).length<=4)
+		if(item.getEntryTitle().split(Constants.WHITE_SPACE).length <= 4)
 			return null;
 
 		NewsProcess newsProcess = new NewsProcess();

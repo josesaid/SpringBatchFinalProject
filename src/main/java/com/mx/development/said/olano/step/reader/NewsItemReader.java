@@ -1,5 +1,6 @@
 package com.mx.development.said.olano.step.reader;
 
+import com.mx.development.said.olano.commons.Constants;
 import com.mx.development.said.olano.entity.News;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -43,7 +44,7 @@ public class NewsItemReader {
 
 		defaultLineMapper.setLineTokenizer(lineTokenizer);
 		lineTokenizer.setDelimiter(",");
-		lineTokenizer.setNames("id","author","type","typeVersionNumber","feedTitle","category","entryTitle");
+		lineTokenizer.setNames(Constants.HEADERS_CSV_FILE_01.split(","));
 		lineTokenizer.setStrict(false); // Set strict property to false
 
 		fieldSetMapper.setTargetType(News.class);

@@ -20,7 +20,7 @@ public class NewsItemWriter{
 
 	@Bean
 	FlatFileItemWriter<NewsProcess> flatFileItemWriter() {
-		log.info("write processedCSVFileOutput: " + processedCSVFileOutput);
+		log.info("Write processedCSVFileOutput: " + processedCSVFileOutput);
 
 		FlatFileItemWriter<NewsProcess> writer = new FlatFileItemWriter<>();
 		WritableResource resource = new FileSystemResource(processedCSVFileOutput);
@@ -28,7 +28,6 @@ public class NewsItemWriter{
 		writer.setAppendAllowed(true);
 		writer.setLineAggregator(new NewsCSVLineAggregator());
 		writer.setHeaderCallback(new NewsCsvFlatFileHeaderCallback());
-
 
 		return writer;
 	}

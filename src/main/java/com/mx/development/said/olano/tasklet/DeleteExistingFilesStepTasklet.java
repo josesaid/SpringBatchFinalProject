@@ -1,6 +1,6 @@
 package com.mx.development.said.olano.tasklet;
 
-
+import com.mx.development.said.olano.commons.Constants;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
@@ -15,12 +15,10 @@ import java.io.IOException;
 @Slf4j
 @Data
 public class DeleteExistingFilesStepTasklet implements Tasklet {
-
     @Override
     public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws IOException {
-        String directory  = "/Users/josesaidolanogarcia/temp/";
-        FileUtils.cleanDirectory(new File(directory));
-        log.warn("Directory " + directory + " has been cleaned-up");
+        FileUtils.cleanDirectory(new File(Constants.WORKING_DIRECTORY));
+        log.warn("Directory " + Constants.WORKING_DIRECTORY + " has been cleaned-up");
         return RepeatStatus.FINISHED;
     }
 

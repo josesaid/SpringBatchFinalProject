@@ -17,7 +17,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 import lombok.RequiredArgsConstructor;
 import com.mx.development.said.olano.entity.News;
 import com.mx.development.said.olano.entity.NewsProcess;
-import com.mx.development.said.olano.tasklet.CleanUpNewsStepTasklet;
+import com.mx.development.said.olano.tasklet.CleanUpAndFormatNewsStepTasklet;
 import com.mx.development.said.olano.tasklet.CreateCSVNewsStepTasklet;
 import com.mx.development.said.olano.tasklet.DeleteExistingFilesStepTasklet;
 import com.mx.development.said.olano.tasklet.RetrieveNewsStepTasklet;
@@ -34,8 +34,8 @@ public class NewsConfig {
 	private final ItemProcessor<News, NewsProcess> newsItemProcessor;
 
 	@Bean
-	public Job cleanUpWorkingDirectoryOSJob() {
-		return new JobBuilder("cleanUpWorkingDirectoryOSJob", jobRepository)
+	public Job cleanUpWorkingDirectoryOSJob () {
+		return new JobBuilder(Constants.CLEAN_UP_WORKING_DIRECTORY_OS_JOB, jobRepository)
 				.incrementer(new RunIdIncrementer())
 				.flow(deleteExistingFilesStep(txManager))
 				.end()
@@ -44,15 +44,17 @@ public class NewsConfig {
 
 	@Bean
 	public Step deleteExistingFilesStep(PlatformTransactionManager txManager) {
-		return new StepBuilder("deleteExistingFilesStep", jobRepository).tasklet(new DeleteExistingFilesStepTasklet(), txManager).build();
+		return new StepBuilder(Constants.DELETE_EXISTING_FILES_STEP, jobRepository)
+				.tasklet(new DeleteExistingFilesStepTasklet(), txManager)
+				.build();
 	}
 
 	@Bean
 	public Job retrieveNewsJob() {
-		return new JobBuilder("retrieveNewsJob", jobRepository)
+		return new JobBuilder(Constants.RETRIEVE_NEWS_JOB, jobRepository)
 				.incrementer(new RunIdIncrementer())
 				.flow(retrieveNewsStep(txManager))
-				.next(cleanUpNewsStep(txManager))
+				.next(cleanUpAndFormatNewsStep(txManager))
 				.next(createCSVNewsStep(txManager))
 				.end()
 				.build();
@@ -60,22 +62,28 @@ public class NewsConfig {
 
 	@Bean
 	public Step retrieveNewsStep(PlatformTransactionManager txManager) {
-		return new StepBuilder("retrieveNewsStep", jobRepository).tasklet(new RetrieveNewsStepTasklet(), txManager).build();
+		return new StepBuilder(Constants.RETRIEVE_NEWS_STEP, jobRepository)
+				.tasklet(new RetrieveNewsStepTasklet(), txManager)
+				.build();
 	}
 
 	@Bean
-	public Step cleanUpNewsStep(PlatformTransactionManager txManager) {
-		return new StepBuilder("cleanUpNewsStep", jobRepository).tasklet(new CleanUpNewsStepTasklet(), txManager).build();
+	public Step cleanUpAndFormatNewsStep(PlatformTransactionManager txManager) {
+		return new StepBuilder(Constants.CLEAN_UP_AND_FORMAT_NEWS_STEP, jobRepository)
+				.tasklet(new CleanUpAndFormatNewsStepTasklet(), txManager)
+				.build();
 	}
 
 	@Bean
 	public Step createCSVNewsStep(PlatformTransactionManager txManager) {
-		return new StepBuilder("createCSVNewsStep", jobRepository).tasklet(new CreateCSVNewsStepTasklet(), txManager).build();
+		return new StepBuilder(Constants.CREATE_CSV_NEWS_STEP, jobRepository)
+				.tasklet(new CreateCSVNewsStepTasklet(), txManager)
+				.build();
 	}
 
 	@Bean
-	public Job processNewsJob(){
-		return new JobBuilder(Constants.PROCESS_NEWS_JOB, jobRepository)
+	public Job newsProcessJob(){
+		return new JobBuilder(Constants.NEWS_PROCESS_JOB, jobRepository)
 				.incrementer(new RunIdIncrementer())
 				.flow(newsProcessStep(txManager))
 				.end()
@@ -84,7 +92,7 @@ public class NewsConfig {
 
 	@Bean
 	public Step newsProcessStep(PlatformTransactionManager txManager) {
-		return new StepBuilder("newsProcessStep", jobRepository)
+		return new StepBuilder(Constants.NEWS_PROCESS_STEP, jobRepository)
 				.<News, NewsProcess>chunk(10, txManager)
 				.reader(newsItemReader)
 				.processor(newsItemProcessor)
