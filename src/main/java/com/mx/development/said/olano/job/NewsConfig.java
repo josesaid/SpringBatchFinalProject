@@ -1,6 +1,9 @@
 package com.mx.development.said.olano.job;
 
 import com.mx.development.said.olano.commons.Constants;
+import com.mx.development.said.olano.listener.CleanUpWorkingDirectoryListener;
+import com.mx.development.said.olano.listener.PrepareNewsToCSVFile01Listener;
+import com.mx.development.said.olano.listener.RetrieveNewsListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -32,11 +35,15 @@ public class NewsConfig {
 	private final ItemReader<News> newsItemReader;
 	private final ItemWriter<NewsProcess> newsItemWriter;
 	private final ItemProcessor<News, NewsProcess> newsItemProcessor;
+	private final CleanUpWorkingDirectoryListener cleanUpWorkingDirectoryListener;
+	private final RetrieveNewsListener retrieveNewsListener;
+	private final PrepareNewsToCSVFile01Listener prepareNewsToCSVFile01Listener;
 
 	@Bean
 	public Job cleanUpWorkingDirectoryOSJob () {
 		return new JobBuilder(Constants.CLEAN_UP_WORKING_DIRECTORY_OS_JOB, jobRepository)
 				.incrementer(new RunIdIncrementer())
+				.listener(cleanUpWorkingDirectoryListener)
 				.flow(deleteExistingFilesStep(txManager))
 				.end()
 				.build();
@@ -53,6 +60,7 @@ public class NewsConfig {
 	public Job retrieveNewsJob() {
 		return new JobBuilder(Constants.RETRIEVE_NEWS_JOB, jobRepository)
 				.incrementer(new RunIdIncrementer())
+				.listener(retrieveNewsListener)
 				.flow(retrieveNewsStep(txManager))
 				.next(cleanUpAndFormatNewsStep(txManager))
 				.next(createCSVNewsStep(txManager))
@@ -85,6 +93,7 @@ public class NewsConfig {
 	public Job newsProcessJob(){
 		return new JobBuilder(Constants.NEWS_PROCESS_JOB, jobRepository)
 				.incrementer(new RunIdIncrementer())
+				.listener(prepareNewsToCSVFile01Listener)
 				.flow(newsProcessStep(txManager))
 				.end()
 				.build();

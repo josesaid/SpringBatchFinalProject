@@ -28,9 +28,7 @@ public class RetrieveNewsStepTasklet implements Tasklet {
 	@Override
 	public RepeatStatus execute(StepContribution contribution, ChunkContext chunkContext) throws IOException, FeedException {
 		log.info("Esta dentro del step: RetrieveNewsStepTasklet");
-
 		SyndFeed feed = new SyndFeedInput().build(new XmlReader(new URL("https://expansion.mx/rss/tecnologia")));
-
 		String author = feed.getAuthor();
 		String type = feed.getFeedType();
 		String feedTitle = feed.getTitle();
