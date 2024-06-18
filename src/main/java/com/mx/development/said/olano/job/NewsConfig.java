@@ -4,7 +4,8 @@ import com.mx.development.said.olano.commons.Constants;
 import com.mx.development.said.olano.listener.job.CleanUpWorkingDirectoryListener;
 import com.mx.development.said.olano.listener.job.PrepareNewsToCSVFile01Listener;
 import com.mx.development.said.olano.listener.job.RetrieveNewsListener;
-import com.mx.development.said.olano.listener.step.RetrieveNewsStepExecutionListener;
+import com.mx.development.said.olano.listener.step.chunk.NewsFromCSVToCSVChunkStepListener;
+import com.mx.development.said.olano.listener.step.execution.RetrieveNewsStepExecutionListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -44,6 +45,10 @@ public class NewsConfig {
 
 	//Step Execution Listener:
 	private final RetrieveNewsStepExecutionListener retrieveNewsStepExecutionListener;
+
+	//Chunk (Step) Listener:
+	private final NewsFromCSVToCSVChunkStepListener newsFromCSVToCSVChunkStepListener;
+
 	@Bean
 	public Job cleanUpWorkingDirectoryOSJob () {
 		return new JobBuilder(Constants.CLEAN_UP_WORKING_DIRECTORY_OS_JOB, jobRepository)
@@ -109,6 +114,7 @@ public class NewsConfig {
 	public Step newsProcessStep(PlatformTransactionManager txManager) {
 		return new StepBuilder(Constants.NEWS_PROCESS_STEP, jobRepository)
 				.<News, NewsProcess>chunk(10, txManager)
+				.listener(newsFromCSVToCSVChunkStepListener)
 				.reader(newsItemReader)
 				.processor(newsItemProcessor)
 				.writer(newsItemWriter)
