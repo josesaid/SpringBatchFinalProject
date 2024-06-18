@@ -6,6 +6,7 @@ import com.mx.development.said.olano.listener.job.PrepareNewsToCSVFile01Listener
 import com.mx.development.said.olano.listener.job.RetrieveNewsListener;
 import com.mx.development.said.olano.listener.step.chunk.NewsFromCSVToCSVChunkStepListener;
 import com.mx.development.said.olano.listener.step.execution.RetrieveNewsStepExecutionListener;
+import com.mx.development.said.olano.listener.step.read.CsvItemFile01ReaderListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -43,11 +44,14 @@ public class NewsConfig {
 	private final RetrieveNewsListener retrieveNewsListener;
 	private final PrepareNewsToCSVFile01Listener prepareNewsToCSVFile01Listener;
 
-	//Step Execution Listener:
+	//(Step) Execution Listener:
 	private final RetrieveNewsStepExecutionListener retrieveNewsStepExecutionListener;
 
 	//Chunk (Step) Listener:
 	private final NewsFromCSVToCSVChunkStepListener newsFromCSVToCSVChunkStepListener;
+
+	//(Step) ItemReader Listener:
+	//private final CsvItemFile01ReaderListener csvItemFile01ReaderListener;
 
 	@Bean
 	public Job cleanUpWorkingDirectoryOSJob () {
@@ -115,10 +119,16 @@ public class NewsConfig {
 		return new StepBuilder(Constants.NEWS_PROCESS_STEP, jobRepository)
 				.<News, NewsProcess>chunk(10, txManager)
 				.listener(newsFromCSVToCSVChunkStepListener)
+				.listener(csvItemFile01ReaderListener())
 				.reader(newsItemReader)
 				.processor(newsItemProcessor)
 				.writer(newsItemWriter)
 				.build();
+	}
+
+	@Bean
+	public CsvItemFile01ReaderListener csvItemFile01ReaderListener(){
+		return new CsvItemFile01ReaderListener();
 	}
 
 }
