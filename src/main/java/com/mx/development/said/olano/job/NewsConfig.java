@@ -6,7 +6,9 @@ import com.mx.development.said.olano.listener.job.PrepareNewsToCSVFile01Listener
 import com.mx.development.said.olano.listener.job.RetrieveNewsListener;
 import com.mx.development.said.olano.listener.step.chunk.NewsFromCSVToCSVChunkStepListener;
 import com.mx.development.said.olano.listener.step.execution.RetrieveNewsStepExecutionListener;
-import com.mx.development.said.olano.listener.step.read.CsvItemFile01ReaderListener;
+import com.mx.development.said.olano.listener.step.process.Csv01FileItemProcessListener;
+import com.mx.development.said.olano.listener.step.read.Csv01FileItemReaderListener;
+import com.mx.development.said.olano.listener.step.write.Csv01FileItemWriterListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
@@ -49,9 +51,6 @@ public class NewsConfig {
 
 	//Chunk (Step) Listener:
 	private final NewsFromCSVToCSVChunkStepListener newsFromCSVToCSVChunkStepListener;
-
-	//(Step) ItemReader Listener:
-	//private final CsvItemFile01ReaderListener csvItemFile01ReaderListener;
 
 	@Bean
 	public Job cleanUpWorkingDirectoryOSJob () {
@@ -119,16 +118,28 @@ public class NewsConfig {
 		return new StepBuilder(Constants.NEWS_PROCESS_STEP, jobRepository)
 				.<News, NewsProcess>chunk(10, txManager)
 				.listener(newsFromCSVToCSVChunkStepListener)
-				.listener(csvItemFile01ReaderListener())
+				.listener(csv01ItemFileReaderListener())
+				.listener(csv01FileItemProcessListener())
+				.listener(csv01ItemFileWriterListener())
 				.reader(newsItemReader)
 				.processor(newsItemProcessor)
 				.writer(newsItemWriter)
 				.build();
 	}
 
-	@Bean
-	public CsvItemFile01ReaderListener csvItemFile01ReaderListener(){
-		return new CsvItemFile01ReaderListener();
+	//(Step) ItemReader Listener:
+	@Bean public Csv01FileItemReaderListener csv01ItemFileReaderListener(){
+		return new Csv01FileItemReaderListener();
+	}
+
+	//(Step) ItemWriter Listener:
+	@Bean public Csv01FileItemWriterListener csv01ItemFileWriterListener(){
+		return new Csv01FileItemWriterListener();
+	}
+
+	//(Step) ItemProcess Listener:
+	@Bean public Csv01FileItemProcessListener csv01FileItemProcessListener(){
+		return new Csv01FileItemProcessListener();
 	}
 
 }
