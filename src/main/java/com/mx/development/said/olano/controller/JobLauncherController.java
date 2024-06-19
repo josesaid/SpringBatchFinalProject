@@ -1,5 +1,6 @@
 package com.mx.development.said.olano.controller;
 
+import java.time.LocalDateTime;
 import java.util.HashMap;
 
 import com.mx.development.said.olano.commons.Constants;
@@ -41,33 +42,7 @@ public class JobLauncherController {
 		//Call third job
 		jobsHelper.executeJob(jobLauncher, applicationContext, Constants.NEWS_PROCESS_JOB);
 
-		return "SAID";
-
+		return "JobLauncherController was executed successfully at: " + LocalDateTime.now();
 	}
-
-/*
-		try {
-			JobParameters jobParameters = new JobParametersBuilder()
-					.addString("JobID", String.valueOf(System.currentTimeMillis())).toJobParameters();
-
-			//var jobExecution = jobLauncher.run(job, jobParameters);
-
-			//var batchStatus = jobExecution.getStatus();
-			
-			var ret= new HashMap<String, Object>();
-			
-			//ret.put("status", batchStatus);
-		
-			return ResponseEntity.ok().body(ret);
-			
-		} catch (Exception e) {
-			return ResponseEntity.internalServerError().build();
-		}
-			*/
-
-
-
-
-
 
 }
