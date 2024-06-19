@@ -1,6 +1,7 @@
 package com.mx.development.said.olano.step.processor;
 
 import com.mx.development.said.olano.commons.Constants;
+import com.mx.development.said.olano.exception.MexicoFoundException;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Component;
@@ -15,8 +16,11 @@ public class NewsItemProcessor implements ItemProcessor<News, NewsProcess>{
 	public NewsProcess process(News item) throws Exception {
 
 		//Ignora las noticias mal redactadas
-		if(item.getEntryTitle().split(Constants.WHITE_SPACE).length <= 4)
-			return null;
+		//if(item.getEntryTitle().split(Constants.WHITE_SPACE).length <= 4)
+		//	return null;
+
+		if(item.getEntryTitle().contains("México"))
+			throw new MexicoFoundException("No puedes ver noticias de México");
 
 		NewsProcess newsProcess = new NewsProcess();
 		BeanUtils.copyProperties(item,newsProcess);

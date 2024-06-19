@@ -1,6 +1,8 @@
 package com.mx.development.said.olano.job;
 
 import com.mx.development.said.olano.commons.Constants;
+import com.mx.development.said.olano.exception.MexicoFoundException;
+import com.mx.development.said.olano.exception.NeverThrownException;
 import com.mx.development.said.olano.listener.job.CleanUpWorkingDirectoryListener;
 import com.mx.development.said.olano.listener.job.PrepareNewsToCSVFile01Listener;
 import com.mx.development.said.olano.listener.job.RetrieveNewsListener;
@@ -124,6 +126,10 @@ public class NewsConfig {
 				.reader(newsItemReader)
 				.processor(newsItemProcessor)
 				.writer(newsItemWriter)
+				.faultTolerant()
+				.skipLimit(100)
+				.skip(MexicoFoundException.class)
+				.noSkip(NeverThrownException.class) //I never threw this exception
 				.build();
 	}
 
